@@ -51,7 +51,7 @@ const VideoDetails = () => {
                 <View style={styles.videoContainer}>
                     <Video
                         ref={videoRef}
-                        source={{ uri: `http://192.168.33.100:5000/${file}` }} 
+                        source={{ uri: `${file}` }} 
                         style={styles.video}
                         resizeMode="contain"
                         shouldPlay={isPlaying}

@@ -67,7 +67,7 @@ const AddItem = () => {
     formData.append('description', description);
 
     try {
-      const response = await fetch('http://192.168.33.100:5000/shop/add', {
+      const response = await fetch('https://ficedu.onrender.com/shop/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

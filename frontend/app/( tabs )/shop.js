@@ -125,7 +125,7 @@ export default function Shop() {
                             onPress={() => router.push(`/itemDetail/${item._id}`)} // Updated navigation
                         >
                             <Image
-                                source={{ uri: `https://ficedu.onrender.com/${item.images[0]}` }}
+                                source={{ uri: `${item.images[0]}` }}
                                 style={styles.image}
                             />
                             <Text style={styles.name}>{item.name}</Text>

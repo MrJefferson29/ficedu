@@ -24,7 +24,7 @@ const CultureScreen = () => {
 
     const fetchFeatures = async () => {
         try {
-            const response = await axios.get('http://192.168.33.100:5000/features/get-all');
+            const response = await axios.get('https://ficedu.onrender.com/features/get-all');
             setFeatures(response.data);
         } catch (error) {
             setError('Error fetching features');

@@ -14,7 +14,7 @@ export default function Register({ navigation }) {
 
     const handleRegister = async () => {
         try {
-            const response = await axios.post('http://192.168.33.100:5000/auth/register', {
+            const response = await axios.post('https://ficedu.onrender.com/auth/register', {
                 username,
                 email,
                 password,

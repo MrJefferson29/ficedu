@@ -47,7 +47,7 @@ const addFeature = () => {
     });
 
     try {
-      const response = await axios.post('http://192.168.33.100:5000/features/create', formData, {
+      const response = await axios.post('https://ficedu.onrender.com/features/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

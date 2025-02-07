@@ -23,7 +23,7 @@ const Features = () => {
 
   const fetchFeatures = async () => {
     try {
-      const response = await axios.get('http://192.168.33.100:5000/features/get-all');
+      const response = await axios.get('https://ficedu.onrender.com/features/get-all');
       setFeatures(response.data);
     } catch (error) {
       setError('Error fetching features');
@@ -63,7 +63,7 @@ const Features = () => {
           ) : (
             <Video
               ref={videoRef}
-              source={{ uri: `http://192.168.33.100:5000/${item.files[0]}` }}
+              source={{ uri: `${item.files[0]}` }}
               style={styles.video}
               useNativeControls
               resizeMode="contain"

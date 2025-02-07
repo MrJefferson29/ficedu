@@ -14,7 +14,7 @@ const QuestionsList = () => {
 
         const fetchQuestions = async () => {
             try {
-                const response = await axios.post('http://192.168.33.100:5000/question/get-all', { subject });
+                const response = await axios.post('https://ficedu.onrender.com/question/get-all', { subject });
                 setQuestions(response.data.data || []);
             } catch (error) {
                 setError('Failed to load questions. Please try again.');

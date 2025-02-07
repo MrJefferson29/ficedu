@@ -19,7 +19,7 @@ const DetailScreen = () => {
       try {
         console.log('Fetching details for id:', id); // Check the ID
 
-        const response = await axios.get(`http://192.168.33.100:5000/features/get/${id}`);
+        const response = await axios.get(`/features/get/${id}`);
         
         console.log('API Response:', response); // Log the API response to verify its structure
 
@@ -86,7 +86,7 @@ const DetailScreen = () => {
         <View style={styles.videoContainer}>
           <Video
             ref={videoRef}
-            source={{ uri: `http://192.168.33.100:5000/${item.files[0]}` }} // Assuming video is a URL
+            source={{ uri: `${item.files[0]}` }} // Assuming video is a URL
             style={styles.video}
             resizeMode="contain"
             shouldPlay={isPlaying} // Control play state with this

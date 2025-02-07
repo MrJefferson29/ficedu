@@ -25,7 +25,7 @@ const VideoList = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await axios.get(`http://192.168.33.100:5000/courses/get-all/${id}`);
+                const response = await axios.get(`https://ficedu.onrender.com/courses/get-all/${id}`);
                 setVideos(response.data.data);
 
                 // Load watched videos from AsyncStorage
@@ -62,7 +62,7 @@ const VideoList = () => {
         formData.append('title', title);
 
         try {
-            const response = await fetch(`http://192.168.33.100:5000/courses/${id}/video`, {
+            const response = await fetch(`https://ficedu.onrender.com/courses/${id}/video`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -175,7 +175,7 @@ const VideoList = () => {
                                             >
                                                 <View style={styles.wrapper}>
                                                     <Video
-                                                        source={{ uri: `http://192.168.33.100:5000/${video.file}` }}
+                                                        source={{ uri: `${video.file}` }}
                                                         style={styles.videoContainer}
                                                         useNativeControls
                                                         resizeMode="contain"

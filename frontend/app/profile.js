@@ -39,7 +39,7 @@ const Profile = () => {
                 return;
             }
             try {
-                const response = await fetch('http://192.168.33.100:5000/user/profile', {
+                const response = await fetch('https://ficedu.onrender.com/user/profile', {
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${userToken}`,
@@ -76,7 +76,7 @@ const Profile = () => {
     const handleSaveChanges = async () => {
         try {
             setIsLoading(true);
-            const response = await fetch('http://192.168.33.100:5000/user/edit-profile', {
+            const response = await fetch('https://ficedu.onrender.com/user/edit-profile', {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${userToken}`,
