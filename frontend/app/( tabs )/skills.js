@@ -9,9 +9,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/upload";
-const CLOUDINARY_PRESET = "YOUR_UPLOAD_PRESET";
-
 const Skills = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,7 +18,7 @@ const Skills = () => {
     const [category, setCategory] = useState('');
     const [images, setImages] = useState([]);
     const [userToken, setUserToken] = useState(null);
-    const [isFormVisible, setIsFormVisible] = useState(false); 
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
     const router = useRouter();
 
@@ -31,6 +28,7 @@ const Skills = () => {
         fetchCourses();
     }, []);
 
+    // Request media & camera permissions
     const requestPermissions = async () => {
         const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync();
         const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
@@ -40,6 +38,7 @@ const Skills = () => {
         }
     };
 
+    // Retrieve user token
     const fetchUserToken = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -49,6 +48,7 @@ const Skills = () => {
         }
     };
 
+    // Fetch courses from API
     const fetchCourses = async () => {
         try {
             const response = await axios.post('https://ficedu.onrender.com/courses/get-all');
@@ -60,6 +60,7 @@ const Skills = () => {
         }
     };
 
+    // Open image picker
     const pickImages = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -68,36 +69,13 @@ const Skills = () => {
         });
 
         if (!result.canceled) {
-            setImages([...images, ...result.assets]);
+            setImages([...images, ...result.assets]); // Append selected images
         } else {
             Alert.alert('No images selected');
         }
     };
 
-    const uploadToCloudinary = async (imageUri) => {
-        const data = new FormData();
-        data.append('file', {
-            uri: imageUri,
-            type: 'image/jpeg',
-            name: `image-${Date.now()}.jpg`
-        });
-        data.append('upload_preset', CLOUDINARY_PRESET);
-        data.append('cloud_name', 'YOUR_CLOUD_NAME');
-
-        try {
-            const response = await fetch(CLOUDINARY_URL, {
-                method: 'POST',
-                body: data,
-            });
-
-            const result = await response.json();
-            return result.secure_url;
-        } catch (error) {
-            console.error("Error uploading image to Cloudinary:", error);
-            return null;
-        }
-    };
-
+    // Handle form submission
     const handleSubmit = async () => {
         if (!name || !price || !category || images.length === 0) {
             Alert.alert('Error', 'All fields are required');
@@ -114,30 +92,31 @@ const Skills = () => {
             return;
         }
 
+        const formData = new FormData();
+        
+        // Convert image URI to a format Cloudinary can accept
+        for (let i = 0; i < images.length; i++) {
+            const response = await fetch(images[i].uri);
+            const blob = await response.blob();
+
+            formData.append('images', {
+                uri: images[i].uri,
+                name: `image-${Date.now()}-${i}.jpg`,
+                type: 'image/jpeg',
+            });
+        }
+
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('category', category);
+
         try {
-            const uploadedImageUrls = await Promise.all(
-                images.map(async (img) => await uploadToCloudinary(img.uri))
-            );
-
-            const validImageUrls = uploadedImageUrls.filter(url => url !== null);
-
-            if (validImageUrls.length === 0) {
-                Alert.alert('Error', 'Image upload failed. Please try again.');
-                return;
-            }
-
             const response = await fetch('https://ficedu.onrender.com/courses/create', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${userToken}`,
-                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    name,
-                    price,
-                    category,
-                    images: validImageUrls,
-                }),
+                body: formData,
             });
 
             const data = await response.json();
@@ -204,10 +183,12 @@ const Skills = () => {
                 )}
             />
 
+            {/* Toggle button */}
             <Pressable onPress={toggleFormVisibility} style={styles.toggleButton}>
                 <Text style={styles.toggleButtonText}>Add Course</Text>
             </Pressable>
 
+            {/* Form Dropdown */}
             {isFormVisible && (
                 <View style={styles.formContainer}>
                     <TextInput
@@ -251,11 +232,56 @@ const Skills = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 10, backgroundColor: '#f8f9fa' },
-    center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    error: { color: 'red', fontSize: 16 },
-    toggleButton: { padding: 10, backgroundColor: '#007bff', alignItems: 'center', marginVertical: 10, borderRadius: 5 },
-    toggleButtonText: { color: '#fff', fontSize: 16 },
+    container: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: '#f8f9fa',
+    },
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    error: {
+        color: 'red',
+        fontSize: 16,
+    },
+    card: {
+        height: 150,
+        marginBottom: 10,
+        borderRadius: 10,
+        overflow: 'hidden',
+        justifyContent: 'flex-end',
+    },
+    imageBackground: {
+        borderRadius: 10,
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        padding: 15,
+    },
+    input: {
+        borderWidth: 1,
+        padding: 8,
+        marginVertical: 5,
+        borderRadius: 5,
+    },
+    imagePreview: {
+        flexDirection: 'row',
+        marginVertical: 10,
+    },
+    image: {
+        width: 50,
+        height: 50,
+        marginRight: 5,
+    },
+    toggleButton: {
+        padding: 10,
+        backgroundColor: '#007bff',
+        alignItems: 'center',
+        marginVertical: 10,
+        borderRadius: 5,
+    },
 });
 
 export default Skills;
