@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { 
-    View, Text, FlatList, ActivityIndicator, StyleSheet, 
-    ImageBackground, Pressable, TextInput, Button, Image, Alert 
+import {
+    View, Text, FlatList, ActivityIndicator, StyleSheet,
+    ImageBackground, Pressable, TextInput, Button, Image, Alert
 } from 'react-native';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
@@ -93,7 +93,7 @@ const Skills = () => {
         }
 
         const formData = new FormData();
-        
+
         // Convert image URI to a format Cloudinary can accept
         for (let i = 0; i < images.length; i++) {
             const response = await fetch(images[i].uri);
@@ -164,10 +164,12 @@ const Skills = () => {
                 data={courses}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
-                    <Pressable onPress={() => router.push({
-                        pathname: `/videos/${item._id}`,
-                        params: { heading: item.name },
-                    })}>
+                    <Pressable
+                        onPress={() => router.push({
+                            pathname: `/videos/[id]`,  // Use dynamic route
+                            params: { id: item._id, heading: item.name },  // Pass dynamic params
+                        })}
+                    >
                         <ImageBackground
                             source={{ uri: `${item.images[0]}` }}
                             style={styles.card}
@@ -180,6 +182,7 @@ const Skills = () => {
                             </View>
                         </ImageBackground>
                     </Pressable>
+
                 )}
             />
 
