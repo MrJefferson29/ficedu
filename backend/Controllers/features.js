@@ -1,29 +1,20 @@
 const Feature = require('../Models/features');
+const cloudinary = require('../Routes/cloudinary'); // Ensure Cloudinary is configured
 const multer = require('multer');
-const path = require('path');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-// Multer configuration (similar to the third file)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Ensure this path is correct and writable
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${path.extname(file.originalname)}`);
-  }
+// Cloudinary storage for images/videos
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (req, file) => ({
+    folder: 'features',
+    resource_type: file.mimetype.startsWith('image/') ? 'image' : 'video',
+    format: file.mimetype.split('/')[1],
+    public_id: `${file.fieldname}-${Date.now()}`
+  }),
 });
 
-// File filter to allow only images and videos
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image and video files are allowed!'), false);
-    }
-  }
-});
+const upload = multer({ storage: storage });
 
 // Create a new feature with file upload
 exports.createFeature = async (req, res) => {
@@ -34,13 +25,13 @@ exports.createFeature = async (req, res) => {
 
     try {
       const { title, notes, category } = req.body;
-      const files = req.files.map(file => file.path); // Get file paths
+      const files = req.files.map(file => file.path); // Get Cloudinary file URLs
 
       const feature = new Feature({
         title,
         notes,
         category,
-        files, // Store the file paths
+        files, // Store Cloudinary URLs
       });
 
       const savedFeature = await feature.save();
@@ -51,4 +42,44 @@ exports.createFeature = async (req, res) => {
   });
 };
 
-// Other feature CRUD operations remain the same...
+// Get all features
+exports.getAllFeatures = async (req, res) => {
+  try {
+    const features = await Feature.find();
+    res.status(200).json(features);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching features', error: error.message });
+  }
+};
+
+// Get a single feature by ID
+exports.getFeatureById = async (req, res) => {
+  try {
+    const feature = await Feature.findById(req.params.id);
+    if (!feature) return res.status(404).json({ message: 'Feature not found' });
+
+    res.status(200).json(feature);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching feature', error: error.message });
+  }
+};
+
+// Update a feature
+exports.updateFeature = async (req, res) => {
+  try {
+    const updatedFeature = await Feature.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.status(200).json({ message: 'Feature updated successfully', feature: updatedFeature });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating feature', error: error.message });
+  }
+};
+
+// Delete a feature
+exports.deleteFeature = async (req, res) => {
+  try {
+    await Feature.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Feature deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting feature', error: error.message });
+  }
+};

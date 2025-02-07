@@ -55,12 +55,7 @@ const Features = () => {
       >
         <View style={styles.videoContainer}>
           {/* Video or default image based on loading state */}
-          {isLoadingVideo ? (
-            <Image
-              source={require('../assets/images/pac.webp')} // Replace with your default image
-              style={styles.video}
-            />
-          ) : (
+          
             <Video
               ref={videoRef}
               source={{ uri: `${item.files[0]}` }}
@@ -73,7 +68,6 @@ const Features = () => {
               onLoadStart={() => setIsLoadingVideo(true)} // Set loading state when the video starts loading
               onLoad={() => setIsLoadingVideo(false)} // Set loading state to false once the video is ready
             />
-          )}
           <Ionicons
             name="play"
             size={40}
@@ -83,7 +77,7 @@ const Features = () => {
         </View>
         <View style={styles.text}>
           <View style={styles.icon}>
-            <Ionicons name="compass" size={30} color={'#D8C9AE'} />
+            <Ionicons name="compass" size={30} color={'#4287f5'} />
             <Text> {item.category} </Text>
           </View>
           <Text style={styles.topic}>{item.notes}</Text>
@@ -123,128 +117,8 @@ const Features = () => {
           >
             <Text style={{ color: 'white' }}>All </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'History' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('History')}
-          >
-            <Text style={{ color: 'white' }}>History </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Art' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Art')}
-          >
-            <Text style={{ color: 'white' }}>Art and Craft </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Dance' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Dance')}
-          >
-            <Text style={{ color: 'white' }}>Music and Dance </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Religion' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Religion')}
-          >
-            <Text style={{ color: 'white' }}>Traditional Beliefs and Religions </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Clothing' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Clothing')}
-          >
-            <Text style={{ color: 'white' }}>Clothing and Textiles </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Cuisine' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Cuisine')}
-          >
-            <Text style={{ color: 'white' }}>Cuisine </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Social' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Social')}
-          >
-            <Text style={{ color: 'white' }}>Social Customs </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Festival' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Festival')}
-          >
-            <Text style={{ color: 'white' }}>Festivals and Celebrations </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Architecture' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Architecture')}
-          >
-            <Text style={{ color: 'white' }}>Architecture </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Education' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Education')}
-          >
-            <Text style={{ color: 'white' }}>Education and Knowledge </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Medicine' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Medicine')}
-          >
-            <Text style={{ color: 'white' }}>Traditional Medicine </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Heritage' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Heritage')}
-          >
-            <Text style={{ color: 'white' }}>Cultural Heritage and Identity </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.filterItem, selectedCategory === 'Community' && styles.selectedFilter]}
-            onPress={() => setSelectedCategory('Community')}
-          >
-            <Text style={{ color: 'white' }}>Community Governance </Text>
-          </TouchableOpacity>
         </ScrollView>
       </View>
-      <TouchableOpacity
-        style={styles.card}
-        accessible={true}
-        onPress={() => router.push(`https://youtu.be/GyEdC0ckea0?si=6iyhRYsiXv0LIlGH`)}
-      >
-        <View style={styles.videoContainer}>
-          {/* Video or default image based on loading state */}
-          {isLoadingVideo ? (
-            <Image
-              source={require('../assets/images/pac.webp')} // Replace with your default image
-              style={styles.video}
-            />
-          ) : (
-            <Video
-              ref={videoRef}
-              source={require('../assets/videos/nsei.mp4')}
-              style={styles.video}
-              useNativeControls
-              resizeMode="contain"
-              isLooping
-              shouldPlay={false}
-              isMuted={true}
-              onLoadStart={() => setIsLoadingVideo(true)} // Set loading state when the video starts loading
-              onLoad={() => setIsLoadingVideo(false)} // Set loading state to false once the video is ready
-            />
-          )}
-          <Ionicons
-            name="play"
-            size={40}
-            style={styles.playIcon}
-            accessibilityLabel="Play Video"
-          />
-        </View>
-        <View style={styles.text}>
-          <View style={styles.icon}>
-            <Ionicons name="compass" size={30} color={'#D8C9AE'} />
-            <Text> Bamessing Nsei Project </Text>
-          </View>
-          <Text style={styles.topic}> Rebuilding the Bamessing Cultural Town Center is an essential project, it reflects the together spirit and teamwork of the sons and daughters of the soil</Text>
-          <Text style={{ fontSize: 14, fontWeight: '600' }}>Trending</Text>
-        </View>
-      </TouchableOpacity>
       <FlatList
         data={filteredFeatures}
         keyExtractor={(item) => item._id}
@@ -340,7 +214,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   selectedFilter: {
-    backgroundColor: '#D8C9AE',
+    backgroundColor: '#4287f5',
   },
   center: {
     flex: 1,

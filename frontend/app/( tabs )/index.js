@@ -37,17 +37,17 @@ export default function Index() {
       >
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.push('/profile')} style={styles.circle}>
-            <Image source={require('../../assets/images/logos.jpg')} style={{width: 45, height: 45, borderRadius: 70}} />
+            <Image source={require('../../assets/images/logo.png')} style={{width: 45, height: 45, borderRadius: 70}} />
           </TouchableOpacity>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>First Choice Education</Text>
             <Text style={styles.headerSubtitle}>
               Hosted by{' '}
               <Text
-                style={{ color: 'teal', fontWeight: '500', textDecorationLine: 'underline' }}
+                style={{ color: 'teal', fontWeight: '900', textDecorationLine: 'underline' }}
                 onPress={() => handlePress('https://tentrade.com/')}
               >
-                Ten Trade Academy
+                TenTrade
               </Text>
             </Text>
           </View>
@@ -72,16 +72,16 @@ export default function Index() {
               >
                 <Text style={styles.cardText}>Past Q&A</Text>
                 <View style={styles.icon}>
-                  <Ionicons name="document" size={24} color="#D8C9AE" />
+                  <Ionicons name="document" size={24} color="#4287f5" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.card}
                 onPress={() => router.push('/shop')}
               >
-                <Text style={styles.cardText}>Sales Copies</Text>
+                <Text style={styles.cardText}>Travel Abroad</Text>
                 <View style={styles.icon}>
-                  <Ionicons name="copy" size={24} color="#D8C9AE" />
+                  <Ionicons name="airplane" size={24} color="#4287f5" />
                 </View>
               </TouchableOpacity>
             </View>
@@ -94,7 +94,7 @@ export default function Index() {
               >
                 <Text style={styles.cardText}>Relevant Skills</Text>
                 <View style={styles.icon}>
-                  <Ionicons name="school" size={24} color="#D8C9AE" />
+                  <Ionicons name="school" size={24} color="#4287f5" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -103,15 +103,15 @@ export default function Index() {
               >
                 <Text style={styles.cardText}>Self Discovery</Text>
                 <View style={styles.icon}>
-                  <Ionicons name="person" size={24} color="#D8C9AE" />
+                  <Ionicons name="person" size={24} color="#4287f5" />
                 </View>
               </TouchableOpacity>
             </View>
           </View>
-          {/* <Text style={styles.heading}>How to study</Text>
+          <Text style={styles.heading}>How to study</Text>
           <View>
             <Features />
-          </View> */}
+          </View>
         </ScrollView>
       </SafeAreaView>
     </DrawerWithHeader>
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    marginTop: 35
   },
   row: {
     flexDirection: 'row',
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: '00',
     color: '#666666',
   },
 });

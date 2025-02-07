@@ -9,7 +9,6 @@ import * as MediaLibrary from 'expo-media-library';
 
 const VideoList = () => {
     const { id, heading } = useLocalSearchParams();
-    console.log(id, heading);
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -225,9 +224,9 @@ const VideoList = () => {
         <View style={styles.container}>
             <Text style={styles.header}>LEARN {heading}</Text>
             {renderVideoList()}
-            <Pressable onPress={() => setShowAddCourse(!showAddCourse)} style={styles.addCourseButton}>
+            {/* <Pressable onPress={() => setShowAddCourse(!showAddCourse)} style={styles.addCourseButton}>
                 <Text style={styles.footer}>Add Video</Text>
-            </Pressable>
+            </Pressable> */}
             {showAddCourse && (
                 <View>
                     <TextInput

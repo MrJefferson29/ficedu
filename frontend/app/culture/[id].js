@@ -19,7 +19,7 @@ const DetailScreen = () => {
       try {
         console.log('Fetching details for id:', id); // Check the ID
 
-        const response = await axios.get(`/features/get/${id}`);
+        const response = await axios.get(`https://ficedu.onrender.com/features/${id}`);
         
         console.log('API Response:', response); // Log the API response to verify its structure
 

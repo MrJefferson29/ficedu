@@ -26,7 +26,7 @@ export default function TabLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#575757',
+          tabBarActiveTintColor: '#4287f5',
         }}
       >
         <Tabs.Screen
@@ -69,7 +69,7 @@ export default function TabLayout() {
             ),
           }}
         />
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="categories"
           options={{
             headerShown: false,
@@ -78,7 +78,7 @@ export default function TabLayout() {
               <Ionicons name={focused ? 'book' : 'book-outline'} color={color} size={25} />
             ),
           }}
-        />
+        /> */}
       </Tabs>
     </GestureHandlerRootView>
   );
