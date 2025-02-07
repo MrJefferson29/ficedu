@@ -19,16 +19,19 @@ const createCourse = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const getAllCourses = asyncErrorWrapper(async (req, res, next) => {
-    try {
-        const courses = await Courses.find(); // Add 'await' here
-        res.status(200).json({
-            success: true,
-            data: courses
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+      const excludedIds = ["67a5fd5cf376cb2608d8fa35", "67a5fb4ff376cb2608d8fa33"];
+      const courses = await Courses.find({ _id: { $nin: excludedIds } });
+
+      res.status(200).json({
+          success: true,
+          data: courses
+      });
+  } catch (error) {
+      next(error);
+  }
 });
+
 
 const updateCourse = asyncErrorWrapper(async (req, res, next) => {
     try {

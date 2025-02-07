@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   videoContainer: {
     width: '100%', // Full width for video
     height: 200, // Adjust height as necessary
-    backgroundColor: '#D8C9AE',
+    backgroundColor: '#575757',
     borderRadius: 8,
     marginBottom: 15,
     justifyContent: 'center',

@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
     View, Text, FlatList, ActivityIndicator, StyleSheet,
-    ImageBackground, Pressable, TextInput, Button, Image, Alert
+    ImageBackground, Pressable, TextInput, Button, Image, Alert, TouchableOpacity
 } from 'react-native';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DrawerLayoutAndroid } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const Skills = () => {
     const [courses, setCourses] = useState([]);
@@ -158,8 +161,44 @@ const Skills = () => {
         );
     }
 
+    const DrawerWithHeader = ({ children }) => {
+        const drawerRef = useRef(null);
+
+        const renderDrawerContent = () => (
+            <View style={styles.drawerContent}>
+            </View>
+        );
+
+        const handlePress = async (url) => {
+            const supported = await Linking.canOpenURL(url);
+            if (supported) {
+                await Linking.openURL(url);
+            } else {
+                Alert.alert('Error', `Cannot open the URL: ${url}`);
+            }
+        };
+
+        return (
+            <DrawerLayoutAndroid
+                ref={drawerRef}
+                drawerWidth={250}
+                drawerPosition="left"
+                renderNavigationView={renderDrawerContent}
+            >
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={() => router.push('/')} style={styles.circle}>
+                       <Ionicons name='chevron-back' color={'white'} size={30} />
+                    </TouchableOpacity>
+                    <View style={styles.headerTextContainer}>
+                        <Text style={styles.headerTitle}>First Choice Education</Text>
+                    </View>
+                </View>
+                {children}
+            </DrawerLayoutAndroid>
+        );
+    };
     return (
-        <View style={styles.container}>
+        <DrawerWithHeader style={styles.container}>
             <FlatList
                 data={courses}
                 keyExtractor={(item) => item._id}
@@ -230,7 +269,7 @@ const Skills = () => {
                     <Button title="Add Item" onPress={handleSubmit} />
                 </View>
             )} */}
-        </View>
+        </DrawerWithHeader>
     );
 };
 
@@ -267,8 +306,8 @@ const styles = StyleSheet.create({
     },
     card: {
         height: 150,
-        marginBottom: 10,
-        borderRadius: 10,
+        marginVertical: 10,
+        borderRadius: 5,
         overflow: 'hidden',
         justifyContent: 'flex-end',
     },
@@ -300,6 +339,41 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 10,
         borderRadius: 5,
+    },
+    header: {
+        backgroundColor: '#4287f5',
+        paddingVertical: 15,
+        paddingTop: 13,
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderBottomColor: '#575757',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    circle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerTextContainer: {
+        flex: 1,
+        marginLeft: 15,
+    },
+    headerTitle: {
+        fontSize: 22,
+        fontWeight: '700',
+        color: 'white',
+        marginBottom: 2,
+    },
+    headerSubtitle: {
+        fontSize: 15,
+        fontWeight: '00',
+        color: 'white',
     },
 });
 

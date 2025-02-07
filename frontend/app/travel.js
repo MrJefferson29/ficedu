@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import axios from 'axios';
 import { Video } from 'expo-av';
 
-const VideoList = () => {
+const Travel = () => {
     const { id, heading } = useLocalSearchParams(); // Get course ID
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ const VideoList = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await axios.get(`https://ficedu.onrender.com/courses/get-all/67a5fb4ff376cb2608d8fa33`);
+                const response = await axios.get(`https://ficedu.onrender.com/courses/get-all/67a5fd5cf376cb2608d8fa35`);
                 setVideos(response.data.data);
             } catch (err) {
                 setError('Failed to load videos');
@@ -195,4 +195,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default VideoList;
+export default Travel;

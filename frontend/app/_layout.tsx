@@ -14,6 +14,7 @@ export default function RootLayout() {
         <Stack.Screen name="DetailScreen/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="Archive" options={{ headerShown: false }} />
         <Stack.Screen name="Projects" options={{ headerShown: false }} />
+        <Stack.Screen name='Travel' options={{headerShown: false}} />
         <Stack.Screen name="soon" options={{ headerShown: false }} />
         <Stack.Screen name="Login" options={{ headerShown: false }} />
         <Stack.Screen name="Register" options={{ headerShown: false }} />

@@ -77,7 +77,7 @@ export default function Index() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.card}
-                onPress={() => router.push('/shop')}
+                onPress={() => router.push('/travel')}
               >
                 <Text style={styles.cardText}>Travel Abroad</Text>
                 <View style={styles.icon}>
@@ -183,7 +183,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.7,
     borderColor: '#575757'
   },
-  features: {},
   heading: {
     marginTop: 20,
     fontSize: 25,
