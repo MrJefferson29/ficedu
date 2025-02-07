@@ -16,7 +16,7 @@ const VideoList = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await axios.get(`http://192.168.33.100:5000/courses/get-all/67a5699c87a8a0fac7ab58d9`);
+                const response = await axios.get(`https://ficedu.onrender.com/courses/get-all/67a5699c87a8a0fac7ab58d9`);
                 setVideos(response.data.data);
             } catch (err) {
                 setError('Failed to load videos');
@@ -84,7 +84,7 @@ const VideoList = () => {
                                         >
                                             <View style={styles.wrapper}>
                                                 <Video
-                                                    source={{ uri: `http://192.168.33.100:5000/${video.file}` }}
+                                                    source={{ uri: `https://ficedu.onrender.com/${video.file}` }}
                                                     style={styles.videoContainer}
                                                     useNativeControls
                                                     resizeMode="contain"

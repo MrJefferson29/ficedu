@@ -11,7 +11,7 @@ const SubjectsScreen = () => {
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const response = await axios.get('http://192.168.33.100:5000/question/get-subjects');
+        const response = await axios.get('https://ficedu.onrender.com/question/get-subjects');
         setSubjects(response.data.data);
       } catch (error) {
         console.error(error);

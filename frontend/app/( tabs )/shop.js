@@ -25,7 +25,7 @@ export default function Shop() {
                     setLoading(false);
                 }
 
-                const response = await axios.get('http://192.168.33.100:5000/shop/get-all');
+                const response = await axios.get('https://ficedu.onrender.com/shop/get-all');
                 const newItems = response.data.data;
                 setItems(newItems); // Set the new items
                 setFilteredItems(newItems); // Set the new filtered items
@@ -125,7 +125,7 @@ export default function Shop() {
                             onPress={() => router.push(`/itemDetail/${item._id}`)} // Updated navigation
                         >
                             <Image
-                                source={{ uri: `http://192.168.33.100:5000/${item.images[0]}` }}
+                                source={{ uri: `https://ficedu.onrender.com/${item.images[0]}` }}
                                 style={styles.image}
                             />
                             <Text style={styles.name}>{item.name}</Text>

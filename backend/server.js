@@ -6,17 +6,10 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const connectDatabase = require("./Controllers/connectDB");
 const IndexRoute = require("./Routes/index");
-const fs = require('fs');
-const uploadsPath = path.join(__dirname, 'uploads');
 
-if (!fs.existsSync(uploadsPath)) {
-    fs.mkdirSync(uploadsPath);
-}
+dotenv.config({ path: "./.env" });
 
-mongoose.set('strictQuery', false);
-
-dotenv.config({ path: './.env' });
-
+mongoose.set("strictQuery", false);
 connectDatabase();
 
 const app = express();
@@ -24,14 +17,13 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cors());
-app.use(morgan('dev')); // Request logging
+app.use(morgan("dev")); // Request logging
 
 // Routes
-app.use('/', IndexRoute);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/", IndexRoute);
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 5000;
 

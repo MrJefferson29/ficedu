@@ -1,19 +1,20 @@
 const express = require('express');
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('./cloudinary');
 const path = require('path');
 const { addItem, getAllItems, getItemById, updateItem, deleteItem } = require('../Controllers/shop');
-const authenticateUser = require('../Middleware/auth')
+const authenticateUser = require('../Middleware/auth');
 
 const router = express.Router();
 
-// Multer configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${path.extname(file.originalname)}`);
+// Cloudinary Storage Configuration
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'shop-items', // Folder in Cloudinary
+    format: async (req, file) => 'png', // Convert all uploads to PNG
+    public_id: (req, file) => `${file.fieldname}-${Date.now()}`
   }
 });
 
@@ -37,7 +38,7 @@ router.get('/get-all', getAllItems);
 // Route for getting a single item by ID
 router.get('/:id', getItemById);
 
-//Route to update the fucking item
+// Route to update the item
 router.put('/:id/update', upload.array('images', 5), updateItem);
 
 // Route for deleting an item by ID

@@ -51,7 +51,7 @@ const Skills = () => {
     // Fetch courses from API
     const fetchCourses = async () => {
         try {
-            const response = await axios.post('http://192.168.33.100:5000/courses/get-all');
+            const response = await axios.post('https://ficedu.onrender.com/courses/get-all');
             setCourses(response.data.data);
         } catch (err) {
             setError('Failed to load courses');
@@ -105,7 +105,7 @@ const Skills = () => {
         formData.append('category', category);
 
         try {
-            const response = await fetch('http://192.168.33.100:5000/courses/create', {
+            const response = await fetch('https://ficedu.onrender.com/courses/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -164,7 +164,7 @@ const Skills = () => {
                         params: { heading: item.name },
                     })}>
                         <ImageBackground
-                            source={{ uri: `http://192.168.33.100:5000/${item.images[0]}` }}
+                            source={{ uri: `https://ficedu.onrender.com/${item.images[0]}` }}
                             style={styles.card}
                             imageStyle={styles.imageBackground}
                         >

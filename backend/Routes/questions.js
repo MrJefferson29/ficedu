@@ -1,18 +1,20 @@
 const express = require('express');
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('./cloudinary');
 const path = require('path');
 const { addQuestion, allQuestions, detailQuestion, allSubjects } = require('../Controllers/questions');
 
 const router = express.Router();
 
-// Configure Multer for File Uploads with Type Validation
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Ensure this directory exists
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    },
+// Configure Cloudinary Storage for Documents
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'questions', // Folder in Cloudinary
+        resource_type: 'raw', // Allow any file type
+        public_id: (req, file) => `${Date.now()}-${file.originalname}`
+    }
 });
 
 // File Filter to Accept Only Specific Document Types
@@ -37,6 +39,6 @@ const upload = multer({
 router.post('/add', upload.array('files', 10), addQuestion); // Accept up to 10 files
 router.post('/get-all', allQuestions);
 router.get('/get-subjects', allSubjects);
-router.post('/:id/detail', detailQuestion)
+router.post('/:id/detail', detailQuestion);
 
 module.exports = router;
